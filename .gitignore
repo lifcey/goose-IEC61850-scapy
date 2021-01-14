@@ -1,3 +1,7 @@
+venv
+.vscode
+.venv
+
 *.py[cod]
 
 # C extensions

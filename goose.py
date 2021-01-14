@@ -42,7 +42,7 @@ class VisibleString(ASNType):
         self.data = data
 
     def __repr__(self):
-        return "'" + self.data + "'"
+        return str(b"'" + self.data + b"'")
 
     def pack(self):
         return self.data
@@ -89,16 +89,16 @@ class OctetString(ASNType):
 class BitString(ASNType):
     ID = 4
     def __init__(self, data='', length=0):
-        c = {'0': '0000', '1': '0001', '2': '0010', 
-             '3':'0011', '4':'0100', '5':'0101', 
-             '6':'0110', '7':'0111', '8':'1000', 
-             '9':'1001', 'a':'1010', 'b':'1011', 
-             'c':'1100', 'd':'1101', 'e':'1110', 
-             'f':'1111'}
-        self.padding = struct.unpack('!h', '\x00'+data[:1])[0]
+        c = {b'0':'0000', b'1':'0001', b'2': '0010', 
+             b'3':'0011', b'4':'0100', b'5':'0101', 
+             b'6':'0110', b'7':'0111', b'8':'1000', 
+             b'9':'1001', b'a':'1010', b'b':'1011', 
+             b'c':'1100', b'd':'1101', b'e':'1110', 
+             b'f':'1111'}
+        self.padding = struct.unpack('!h', b'\x00'+data[:1])[0]
         h = binascii.b2a_hex(data[1:])
         self.data = ''
-        for i in h:
+        for i in struct.unpack(str(len(h))+'c', h):
             self.data += c[i]
 
     def pack(self):
